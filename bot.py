@@ -6,12 +6,10 @@ import config
 
 def get_audio(link):
     x = requests.get(link).text
-    # print(x[x.find('<title>') + 7 : x.find('</title>')-9]+".m4a")
     ret = {}
     ret['title'] = x[x.find('<title>') + 7 : x.find('</title>')-9]
     ret['url'] = x.split('twitter:player:stream" content="')[1].split('">')[0].replace('amp;', '')
     return ret
-    # print(x.split('twitter:player:stream" content="')[1].split('">')[0].replace('amp;', ''))
     #urllib.request.urlretrieve(x.split('twitter:player:stream" content="')[1].split('">')[0].replace('amp;', ''), x[x.find('<title>') + 7 : x.find('</title>')-9]+".m4a")
 
 def hello(bot, update):
@@ -23,9 +21,7 @@ def link(bot, update):
     match = re.search("http://www.smule.com/p/\d*_\d*",update.message.text)
     if match:
         link = match.group(0)
-        # print(link)
         audio = get_audio(link)
-        # print(audio)
         update.message.reply_document(audio['url'],filename=audio['title']+".mp3",caption=audio['title'])
     else:
         update.message.reply_text('Failed to get the File. Sorry')
